@@ -7,13 +7,10 @@ import random as rd
 import pandas as pd
 import shutil
 from  deta import Deta
-
+from operator import attrgetter
 
 
 # ------------ FUNCTIONS
-
-def result_jeu():
-    st.session_state
 
 
 def signe(value, a, b):
@@ -91,49 +88,70 @@ def game():
         key='niv'
     )
 
+    st.write("Be careful, if you put at least one answer but decide to change the level, answers will be save.")
+
     if (niv != '---'):
+
 
         if st.session_state['restart'] == 1:
             jeu(niv)
 
         if st.session_state['result'] == 1:  # Affichage des résultats
-            bon_rep, mauv_rep = 0, 0
-            for i in range(10):
-                test_cal = st.session_state['cal_' + str(i)]
-                test_joueur = st.session_state['cal_joueur_' + str(i)]
+            # On regarde si le joueur a réellement joué. S'il n'a mit aucune valeur dans les input, on ne sauvegarde pas les réponses et on n'affiche pas les résultats.
+            # Le niveau recommencera
+            vide = 0
+            for i in range(10):  # On va vérifier que tous les réponses ne sont pas nulles, sinon on en déduit que le joueur n'a pas joué
+                test_joueur = str(st.session_state['cal_joueur_' + str(i)])
 
-                if str(test_cal) == test_joueur:
-                    bon_rep += 1
-                    suc = st.session_state['cal_print_' + str(i)] + st.session_state['cal_joueur_' + str(i)]
-                    st.success(suc)
-                else:
-                    mauv_rep += 1
-                    err = st.session_state['cal_print_' + str(i)] + st.session_state[
-                        'cal_joueur_' + str(i)] + "\t >>> Correction : " + st.session_state[
-                              'cal_print_' + str(i)] + str(st.session_state['cal_' + str(i)])
-                    st.error(err)
+                if (test_joueur == ""):
+                    vide += 1
 
-            ratio = (bon_rep / (bon_rep + mauv_rep)) * 100
-            lvl = int(niv)
-            date = str(datetime.date.today())
+            if(vide != 10): # Si le joueur a mis au moins une réponse, on lui affiche les résultats et on sauvegarde
 
-            # ENREGISTREMENT DES DONNEES
+                bon_rep, mauv_rep = 0, 0
 
-            # connexion à la base de données
-            deta_key = "a08tige2_PvhsiHXAgkfPxQe1V216HBn6Js3czaoz"
-            deta = Deta(deta_key)
-            db = deta.Base("cal_bdd")
+                for i in range(10):
+                    test_cal = st.session_state['cal_' + str(i)]
+                    test_joueur = st.session_state['cal_joueur_' + str(i)]
 
-            cle = int(st.session_state['last_key']) + 1
+                    if str(test_cal) == test_joueur:
+                        bon_rep += 1
+                        suc = st.session_state['cal_print_' + str(i)] + st.session_state['cal_joueur_' + str(i)]
+                        st.success(suc)
+                    else:
+                        mauv_rep += 1
+                        err = st.session_state['cal_print_' + str(i)] + st.session_state[
+                            'cal_joueur_' + str(i)] + "\t >>> Correction : " + st.session_state[
+                                  'cal_print_' + str(i)] + str(st.session_state['cal_' + str(i)])
+                        st.error(err)
 
-            db.put(
-                {'key': str(cle), 'user': st.experimental_user.email, 'date': date, 'niveau': lvl, 'bonne_rep': bon_rep,
-                 'mauvaise_rep': mauv_rep, 'ratio': ratio})
+                ratio = (bon_rep / (bon_rep + mauv_rep)) * 100
+                lvl = int(niv)
+                date = str(datetime.date.today())
 
-            st.session_state['last_key'] = cle
-            st.session_state['result'] = 0
-            st.session_state['restart'] = 1
-            st.button("Retry")
+                # ENREGISTREMENT DES DONNEES
+
+                # connexion à la base de données
+                deta_key = "a08tige2_PvhsiHXAgkfPxQe1V216HBn6Js3czaoz"
+                deta = Deta(deta_key)
+                db = deta.Base("cal_bdd")
+
+
+                cle = int(st.session_state['last_key']) + 1
+
+                db.put(
+                    {'key': str(cle), 'user': st.experimental_user.email, 'date': date, 'niveau': lvl, 'bonne_rep': bon_rep,
+                     'mauvaise_rep': mauv_rep, 'ratio': ratio})
+
+                st.session_state['last_key'] = cle
+                st.session_state['result'] = 0
+                st.session_state['restart'] = 1
+                st.button("Retry")
+            else: # Sinon on ne sauvegarde pas les résultats et on ne les affiche pas, et on le fait recommencer
+                st.session_state['result'] = 0
+                st.session_state['restart'] = 1
+                st.experimental_rerun()
+
         else:  # Affichage des calculs
             with st.form("my_form"):
                 st.write("Try to complete each calculation, then confirm.")
@@ -143,6 +161,10 @@ def game():
                                   key="cal_joueur_" + str(i), label_visibility="hidden")  # Réponse du joueur
 
                 confirm = st.form_submit_button("Confirm", on_click=confirm_button())
+
+
+
+
 
 
 # ------------ PAGE DE STATISTIQUES
@@ -172,6 +194,8 @@ def stat():
     else:
         data = db.fetch({"user": st.experimental_user.email, "niveau": int(option)}).items
 
+    data = sorted(data, key=lambda d: d['key']) # On tri les données par la clé (la clé étant du string dans la bdd, le '10' se situe avant le '2')
+
     mean_ratio = 0
     bon_rep = 0
     mauv_rep = 0
@@ -199,13 +223,15 @@ def stat():
         st.subheader("Evolution of your ratio")
         st.line_chart(ratio)
 
-    # ------------ PAGE DE MENU
+
+# ------------ PAGE DE MENU
 
 
 def menu_page():
     st.title(f'Hi {st.experimental_user.email} !')
     st.markdown('On this application, you can work your mental calculation and have a look to your progration !')
     st.markdown('Acceed to the training or statistics page with the menu on the left.')
+
 
 
 # ------------ PAGE

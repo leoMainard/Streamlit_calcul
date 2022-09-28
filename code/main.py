@@ -7,7 +7,7 @@ import random as rd
 import pandas as pd
 import shutil
 from  deta import Deta
-from operator import attrgetter
+from operator import itemgetter
 
 
 # ------------ FUNCTIONS
@@ -190,11 +190,11 @@ def stat():
     db = deta.Base("cal_bdd")
 
     if (option == "All"):
-        data = db.fetch({"user": st.experimental_user.email}).items
+        data_temp = db.fetch({"user": st.experimental_user.email}).items
     else:
-        data = db.fetch({"user": st.experimental_user.email, "niveau": int(option)}).items
+        data_temp = db.fetch({"user": st.experimental_user.email, "niveau": int(option)}).items
 
-    data = sorted(data, key=lambda d: d['key']) # On tri les données par la clé (la clé étant du string dans la bdd, le '10' se situe avant le '2')
+    data = sorted(data_temp, key=lambda d: int(d['key'])) # On tri les données par la clé (la clé étant du string dans la bdd, le '10' se situe avant le '2')
 
     mean_ratio = 0
     bon_rep = 0

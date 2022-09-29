@@ -11,32 +11,15 @@ from operator import itemgetter
 
 
 # ------------ FUNCTIONS
-
-
-def signe(value, a, b):
-    if value == 0:
-        return [a * b, f'{a} x {b} = ']
-    elif value == 1:
-        return [a + b, f'{a} + {b} = ']
-    else:
-        return [a - b, f'{a} - {b} = ']
-
-
-def save_session(calcul_ecrit, calcul, resultat_joueur):
-    st.session_state['print_cal'] = calcul_ecrit  # Calcul écrit
-    st.session_state['cal'] = calcul  # Résultat du calcul
-    st.session_state['result'] = resultat_joueur  # Résultat du joueur
-
-
 def jeu(niv):
     niv = int(niv)
 
     if (niv == 1):
         min, max = 1, 10
     elif (niv == 2):
-        min, max = 1, 30
-    elif (niv == 3):
         min, max = 1, 100
+    elif (niv == 3):
+        min, max = 10, 100
 
     for i in range(10):
 
@@ -45,12 +28,15 @@ def jeu(niv):
 
         value = rd.randint(0, 2)
 
-        if value == 0:
+        if (niv == 3):
             cal = [a * b, f'{a} x {b} = ']
-        elif value == 1:
-            cal = [a + b, f'{a} + {b} = ']
         else:
-            cal = [a - b, f'{a} - {b} = ']
+            if value == 0:
+                cal = [a * b, f'{a} x {b} = ']
+            elif value == 1:
+                cal = [a + b, f'{a} + {b} = ']
+            else:
+                cal = [a - b, f'{a} - {b} = ']
 
         st.session_state['cal_' + str(i)] = cal[0]
         st.session_state['cal_print_' + str(i)] = cal[1]

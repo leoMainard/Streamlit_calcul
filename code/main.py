@@ -312,43 +312,48 @@ def game():
                 st.session_state['survival_score'] += 1
                 st.experimental_rerun()
             else:
+                if(st.session_state['progression_bar'] != 0):
+                    temps = time.time() - st.session_state['start']
 
-                temps = time.time() - st.session_state['start']
+                    seconds = temps % 60
+                    minutes = temps // 60
 
-                seconds = temps % 60
-                minutes = temps // 60
+                    temps = "%02d:%02d" % (minutes, seconds)
 
-                temps = "%02d:%02d" % (minutes, seconds)
+                    err = st.session_state['survival_cal_print'] + st.session_state['survival_cal_joueur'] + ' >>> ' + \
+                          st.session_state['survival_cal_print'] + str(st.session_state['survival_cal'])
 
-                err = st.session_state['survival_cal_print'] + st.session_state['survival_cal_joueur'] + ' >>> ' + \
-                      st.session_state['survival_cal_print'] + str(st.session_state['survival_cal'])
-
-                st.error(err)
-                st.info(f"Your score : {st.session_state['survival_score']} / 100")
-                st.info(f"Your time : {temps}")
+                    st.error(err)
+                    st.info(f"Your score : {st.session_state['survival_score']} / 100")
+                    st.info(f"Your time : {temps}")
 
 
-                # ENREGISTREMENT DES DONNEES
-                # connexion à la base de données
-                deta_key = "a08tige2_PvhsiHXAgkfPxQe1V216HBn6Js3czaoz"
-                deta = Deta(deta_key)
-                db = deta.Base("cal_bdd")
+                    # ENREGISTREMENT DES DONNEES
+                    # connexion à la base de données
+                    deta_key = "a08tige2_PvhsiHXAgkfPxQe1V216HBn6Js3czaoz"
+                    deta = Deta(deta_key)
+                    db = deta.Base("cal_bdd")
 
-                cle = int(st.session_state['last_key']) + 1
-                date = str(datetime.date.today())
-                bon_rep = int(st.session_state['survival_score'])
-                mauv_rep = 100 - int(st.session_state['survival_score'])
-                niv = 4
+                    cle = int(st.session_state['last_key']) + 1
+                    date = str(datetime.date.today())
+                    bon_rep = int(st.session_state['survival_score'])
+                    mauv_rep = 100 - int(st.session_state['survival_score'])
+                    niv = 4
 
-                db.put({'index': str(cle), 'user': st.experimental_user.email, 'date': date, 'niveau': niv,
-                     'bonne_rep': bon_rep,
-                     'mauvaise_rep': mauv_rep, 'ratio': bon_rep, 'temps': temps})
+                    db.put({'index': str(cle), 'user': st.experimental_user.email, 'date': date, 'niveau': niv,
+                         'bonne_rep': bon_rep,
+                         'mauvaise_rep': mauv_rep, 'ratio': bon_rep, 'temps': temps})
 
-                st.session_state['survival_result'] = 0
-                st.session_state['progression_bar'] = 0
-                st.session_state['survival_score'] = 0
+                    st.session_state['survival_result'] = 0
+                    st.session_state['progression_bar'] = 0
+                    st.session_state['survival_score'] = 0
 
-                st.button('Try again !')
+                    st.button('Try again !')
+                else:
+                    st.session_state['survival_result'] = 0
+                    st.session_state['progression_bar'] = 0
+                    st.session_state['survival_score'] = 0
+                    st.experimental_rerun()
     else:
         # reboot session survival
         st.session_state['progression_bar'] = 0
@@ -365,8 +370,7 @@ def game():
             # On regarde si le joueur a réellement joué. S'il n'a mit aucune valeur dans les input, on ne sauvegarde pas les réponses et on n'affiche pas les résultats.
             # Le niveau recommencera
             vide = 0
-            for i in range(
-                    10):  # On va vérifier que tous les réponses ne sont pas nulles, sinon on en déduit que le joueur n'a pas joué
+            for i in range(10):  # On va vérifier que tous les réponses ne sont pas nulles, sinon on en déduit que le joueur n'a pas joué
                 test_joueur = str(st.session_state['cal_joueur_' + str(i)])
 
                 if (test_joueur == ""):

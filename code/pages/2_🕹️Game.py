@@ -119,19 +119,19 @@ def survival_game(progression):
             cal = [round(float(a) - float(b),4), f'{a} - {b} = ']
 
     elif (int(progression) <= 50):
-        a = rd.randint(10, 100)
+        a = rd.randint(100, 500)
         b = rd.randint(3, 10)
 
         cal = [a * b, f'{a} x {b} = ']
 
     elif (int(progression) <= 60):
-        a = rd.randint(10, 100)
-        b = rd.randint(10, 100)
+        a = rd.randint(100, 500)
+        b = rd.randint(10, 20)
 
         cal = [a * b, f'{a} x {b} = ']
 
     elif (int(progression) <= 70):
-        a = rd.randint(10, 1000)
+        a = rd.randint(1000, 5000)
         b = rd.randint(3, 15)
 
         cal = [a * b, f'{a} x {b} = ']

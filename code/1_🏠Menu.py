@@ -6,7 +6,7 @@ import pandas as pd
 import shutil
 from deta import Deta
 from operator import itemgetter
-
+from connection_bdd import connection_cal_bdd, connection_players_stat
 
 # ------------ PAGE DE MENU
 
@@ -25,9 +25,7 @@ st.header(f'Hi {user} !\n')
 st.markdown('On this application, you can work your mental calculation and have a look to your progration !')
 st.markdown('Acceed to the training or statistics page with the menu on the left.')
 
-players_key = "a08tige2_XzyWbFaNJTjuhwHuZzMaZxQA4humpKrW"
-deta = Deta(players_key)
-ps = deta.Base("players_stat")
+ps = connection_players_stat()
 
 data_player = ps.fetch({"user": st.experimental_user.email}).items
 
@@ -52,9 +50,8 @@ if(nb_item == 0):
 # ------------ PAGE DE BASE DE DONNEES
 def base():
     # On se connecte à la bdd de jeu
-    deta_key = "a08tige2_PvhsiHXAgkfPxQe1V216HBn6Js3czaoz"
-    deta = Deta(deta_key)
-    db = deta.Base("cal_bdd")
+
+    db = connection_cal_bdd()
 
     joueur = ['dam.ravaud@gmail.com','timotheequeffelec79@gmail.com','test@localhost.com','pa-trarieux@smacl.fr','leomainard63@gmail.com','a-menage@smacl.fr']
 
@@ -114,9 +111,7 @@ def base():
         best_niv3 = str(time.strftime("%M:%S",best_niv3))
 
 
-        players_key = "a08tige2_XzyWbFaNJTjuhwHuZzMaZxQA4humpKrW"
-        deta = Deta(players_key)
-        ps = deta.Base("players_stat")
+        ps = connection_players_stat()
 
         ps.put({'user': jou,
                 'nb_parties': nb_parties,

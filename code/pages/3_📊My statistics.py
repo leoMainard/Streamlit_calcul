@@ -1,6 +1,6 @@
 import streamlit as st
 from deta import Deta
-
+from connection_bdd import connection_cal_bdd, connection_players_stat
 
 st.set_page_config(
     page_title="Calcul Master",
@@ -20,9 +20,7 @@ option = st.selectbox(
 st.session_state['stat_lvl'] = option
 
 # connexion à la base de données
-deta_key = "a08tige2_PvhsiHXAgkfPxQe1V216HBn6Js3czaoz"
-deta = Deta(deta_key)
-db = deta.Base("cal_bdd")
+db = connection_cal_bdd()
 
 if (option == "All"):
     data_temp = db.fetch({"user": st.experimental_user.email}).items

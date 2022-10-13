@@ -481,12 +481,12 @@ else:
                 temps_diff = get_sec(temps)
 
                 key = i['key']
-                if (temps_diff > get_sec(i['worst_niv' + str(lvl)])):
-                    updates['worst_niv' + str(lvl)] = temps
-                if (temps_diff < get_sec(i['best_niv' + str(lvl)])):
-                    updates['best_niv' + str(lvl)] = temps
                 if(bon_rep == 10):
                     updates['score'] = i['score'] + (5 * lvl)
+                    if (temps_diff > get_sec(i['worst_niv' + str(lvl)])):
+                        updates['worst_niv' + str(lvl)] = temps
+                    if (temps_diff < get_sec(i['best_niv' + str(lvl)])):
+                        updates['best_niv' + str(lvl)] = temps
                 else:
                     updates['score'] = i['score'] - mauv_rep
                 updates['nb_parties'] = i['nb_parties'] + 1

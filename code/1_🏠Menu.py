@@ -36,12 +36,12 @@ for i in data_player:
 if(nb_item == 0):
     ps.put({'user': st.experimental_user.email,
             'nb_parties': 0,
-            'worst_niv1': '00:00',
-            'best_niv1': '59:59',
-            'worst_niv2': '00:00',
-            'best_niv2': '59:59',
-            'worst_niv3': '00:00',
-            'best_niv3': '59:59',
+            'worst_niv1': '00:00:00',
+            'best_niv1': '59:59:59',
+            'worst_niv2': '00:00:00',
+            'best_niv2': '59:59:59',
+            'worst_niv3': '00:00:00',
+            'best_niv3': '59:59:59',
             'best_survival': 0,
             'worst_survival': 100,
             'score': 0

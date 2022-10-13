@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4020f3f8-25ec-45fd-8c17-81597ec555fe" name="Default Changelist" comment="" />
+    <list default="true" id="4020f3f8-25ec-45fd-8c17-81597ec555fe" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/1_Menu.py" beforePathEscaped="$PROJECT_DIR$/1_🏠Menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/1_Menu.py" afterPathEscaped="$PROJECT_DIR$/1_🏠Menu.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/2_️Game.py" beforePathEscaped="$PROJECT_DIR$/pages/2_🕹️Game.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/2_️Game.py" afterPathEscaped="$PROJECT_DIR$/pages/2_🕹️Game.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/3_My statistics.py" beforePathEscaped="$PROJECT_DIR$/pages/3_📊My statistics.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/3_My statistics.py" afterPathEscaped="$PROJECT_DIR$/pages/3_📊My statistics.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/4_Ranking.py" beforePathEscaped="$PROJECT_DIR$/pages/4_🏆Ranking.py" beforeDir="false" afterPath="$PROJECT_DIR$/pages/4_Ranking.py" afterPathEscaped="$PROJECT_DIR$/pages/4_🏆Ranking.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

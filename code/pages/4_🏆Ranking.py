@@ -9,8 +9,8 @@ st.set_page_config(
 
 def get_sec(time_str):
     """Get seconds from time."""
-    m, s = time_str.split(':')
-    return int(m) * 60 + int(s)
+    m, s, c = time_str.split(':')
+    return int(m) * 60 + int(s) + (int(c)/10)
 
 st.title('🏆 The best are here !')
 
@@ -21,7 +21,7 @@ data_temp = db.fetch().items
 data = sorted(data_temp, key=lambda d: float(d['score']))  # On tri les données par le score
 
 top = 1
-best1, best2, best3 = "59:59", "59:59", "59:59"
+best1, best2, best3 = "59:59:99", "59:59:99", "59:59:99"
 best_surv = 0
 user1, user2, user3 = "","",""
 

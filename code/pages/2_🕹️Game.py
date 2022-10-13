@@ -202,8 +202,8 @@ def rerun():
 
 def get_sec(time_str):
     """Get seconds from time."""
-    m, s = time_str.split(':')
-    return int(m) * 60 + int(s)
+    m, s, c = time_str.split(':')
+    return int(m) * 60 + int(s) + (int(c)/10)
 
 
 
@@ -286,10 +286,12 @@ if (niv == '---'):
     st.warning("Be careful, when you chose a level, you have 3 seconds to prepare yourself.\n"
             "After that, the level start and a timer is activated. If you are not ready, you can restart by re-choosing the level or by clicking on the 'Retry' button.\n\n"
             "If you put at least one answer but decide to change the level, answers will be save.\n\n"
+            "If you have 10/10, you win 5 points of score for the level 1, 10 for level 2 and 15 for level 3. But if you make mistakes, you lose 1 point of score by mistake.\n\n"
             "Good luck !")
     st.write("Survival level")
     st.info("Survival mode start when you chose it. You have all your time to complete 100 levels. Of course, the difficulty will increase. \n\n"
             "When you put an answer, you can validate it with <Enter> or <Tabulation>, and an other calculation will appear.\n\n"
+            "You win 0.5 point of score by good answer.\n\n"
             "Good luck ! For real !")
 
     # reboot session niv 1-2-3
@@ -346,10 +348,12 @@ elif (niv == 'Survival'):
             if(st.session_state['progression_bar'] != 0):
                 temps = time.time() - st.session_state['start']
 
-                seconds = temps % 60
                 minutes = temps // 60
+                seconds = temps % 60
+                centieme = str(seconds)
+                centieme = int(centieme.split(".")[1][:2])
 
-                temps = "%02d:%02d" % (minutes, seconds)
+                temps = "%02d:%02d:%02d" % (minutes, seconds, centieme)
 
                 err = st.session_state['survival_cal_print'] + st.session_state['survival_cal_joueur'] + ' >>> ' + \
                       st.session_state['survival_cal_print'] + str(st.session_state['survival_cal'])
@@ -431,8 +435,10 @@ else:
 
             seconds = temps % 60
             minutes = temps // 60
+            centieme = str(seconds)
+            centieme = int(centieme.split(".")[1][:2])
 
-            temps = "%02d:%02d" % (minutes, seconds)
+            temps = "%02d:%02d:%02d" % (minutes, seconds, centieme)
 
             bon_rep, mauv_rep = 0, 0
 

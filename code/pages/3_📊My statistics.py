@@ -74,15 +74,14 @@ else:
         ratio.append(i['ratio'])
         temps.append(get_sec(i['temps']))
 
+if(nb_item != 0):
+    mean_time = mean_time / nb_item
+    seconds = mean_time % 60
+    minutes = mean_time // 60
+    centieme = str(seconds)
+    centieme = int(centieme.split(".")[1][:2])
 
-
-mean_time = mean_time / nb_item
-seconds = mean_time % 60
-minutes = mean_time // 60
-centieme = str(seconds)
-centieme = int(centieme.split(".")[1][:2])
-
-mean_time = "%02d:%02d:%02d" % (minutes, seconds, centieme)
+    mean_time = "%02d:%02d:%02d" % (minutes, seconds, centieme)
 
 if (nb_item == 0):
     st.write("No data for the moment, start to play to see your statistics.")

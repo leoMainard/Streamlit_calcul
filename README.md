@@ -1,5 +1,7 @@
 # Streamlit_calcul
 
+An app to train your mental calculation
+
 ![image](https://user-images.githubusercontent.com/66980442/195794136-6fc692fa-1291-4573-a679-1966801c7103.png)
 
 ![image](https://user-images.githubusercontent.com/66980442/195794238-266960e7-e5fb-491f-9ec3-14d5200351e2.png)
